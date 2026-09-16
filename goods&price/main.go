@@ -35,7 +35,7 @@ func main() {
 	case strings.Contains(strings.ToLower(goods3), strings.ToLower(input)):
 		fmt.Printf("%s: %.0f\n", goods3, price3)
 	default:
-		fmt.Printf("Товар %s не найден.\n", input)
+		fmt.Printf("Товар %q не найден.\n", input)
 	}
 
 }
