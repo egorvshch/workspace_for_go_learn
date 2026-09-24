@@ -10,7 +10,7 @@ import (
 func main() {
 
 	if str, err := GetInput(); err != nil {
-		fmt.Errorf("Error cause %q", err)
+		fmt.Printf("Error cause %q\n", err)
 		os.Exit(1)
 	} else {
 		letters, digits, spaces, punctuation := CountCharacters(str)
