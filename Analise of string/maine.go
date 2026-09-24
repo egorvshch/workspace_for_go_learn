@@ -28,7 +28,7 @@ func GetInput() (string, error) {
 		err := scanner.Err()
 		textInput := scanner.Text()
 		if err != nil {
-			return "", fmt.Errorf("Произошла ошибка ввода %v", err)
+			return "", fmt.Errorf("Scan error %w", err)
 		}
 		if len(strings.TrimSpace(textInput)) == 0 {
 			fmt.Println("Строка не должна быть пустой либо содержать только пробелы")
