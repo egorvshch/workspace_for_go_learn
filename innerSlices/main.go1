@@ -1,0 +1,48 @@
+/*
+Функция replaceEvenOnEvenIndices, которая принимает двумерный слайс целых чисел и возвращает новый двумерный слайс.
+
+Логика работы функции:
+
+В возвращаемом слайсе должны быть те же значения, что и в исходном.
+Однако все четные числа, расположенные на четных индексах внутри своих слайсов (включая индекс 0), должны быть заменены на 0.
+*/
+
+
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+
+	slice2 := [][]int{
+		{10, 9, 8, 7},
+		{10, 9, 8, 7},
+		{10, 9, 8, 7},
+	}
+	fmt.Println(replaceEvenOnEvenIndices(slice2))
+}
+
+func replaceEvenOnEvenIndices(matrix [][]int) [][]int {
+
+	mirrorX := make([][]int, len(matrix))
+	for i := range mirrorX {
+		mirrorX[i] = []int{}
+	}
+	for i, innerSlice := range matrix {
+		for k := range innerSlice {
+			mirrorX[i] = append(mirrorX[i], matrix[i][k])
+		}
+
+	}
+
+	for i, innerSlice := range mirrorX {
+		for k, val := range innerSlice {
+			if val%2 == 0 && k%2 == 0 {
+				mirrorX[i][k] = 0
+			}
+		}
+	}
+	return mirrorX
+}
