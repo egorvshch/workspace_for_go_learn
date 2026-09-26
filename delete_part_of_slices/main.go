@@ -36,20 +36,20 @@ func DeletingFromSlice(slice1 []int) []int {
 	//Удалить значение по индексу 2, если такой индекс есть в копии и вместимость копии больше 5.
 	//Удалить первое значение, если оно присутствует и были выполнены оба удаления из пунктов 1 и 2.
 	//Убрать лишнюю вместимость у слайса.
-	startLength := len(resultSlice)
+	logicCounter  := 0
 	if len(resultSlice) != 0 {
 		if resultSlice[len(resultSlice)-1] > 10 {
 			resultSlice = resultSlice[:len(resultSlice)-1]
+			logicCounter++
 		}
 		if len(resultSlice) >= 3 && cap(resultSlice) > 5 {
 			resultSlice = append(resultSlice[:2], resultSlice[3:]...)
+			logicCounter++
 		}
-		if len(resultSlice)+2 == startLength {
+		if logicCounter == 2 {
 			resultSlice = resultSlice[1:]
 		}
 		resultSlice = resultSlice[:len(resultSlice):len(resultSlice)]
 	}
 
 	return resultSlice
-
-}
