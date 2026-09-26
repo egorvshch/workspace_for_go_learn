@@ -53,3 +53,5 @@ func DeletingFromSlice(slice1 []int) []int {
 	}
 
 	return resultSlice
+
+}
