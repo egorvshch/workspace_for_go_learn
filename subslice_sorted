@@ -1,0 +1,66 @@
+/*
+Функция sortBySum, которая принимает двумерный слайс целых чисел и сортирует его по следующим критериям:
+
+Внешний слайс должен быть отсортирован по возрастанию суммы чисел в каждом внутреннем слайсе, если слайсы имеют одинаковую сумму, то они должны быть в том же порядке, что и были (стабильная сортировка).
+Порядок значений во внутренних слайсах не меняется.
+*/
+
+
+package main
+
+import (
+	"cmp"
+	"fmt"
+	"slices"
+)
+
+func main() {
+
+	sliceX := [][]int{
+		{3, 1, 4, 1},
+		{2, 2, 2},
+		{5, 0, 6, 3, -8, 1},
+		{4, 6, 8, 2},
+	}
+	sortBySum(sliceX)
+	fmt.Println(sliceX)
+
+	//[[2 2 2] [5 0 6 3 -8 1] [3 1 4 1] [4 6 8 2]]
+}
+
+func sortBySum(data [][]int) {
+
+	// считаем суммы в слайсах и добавляем их в новый слайс
+	sums := make([]int, len(data))
+
+	for i, subSlice := range data {
+		for _, val := range subSlice {
+			sums[i] += val
+		}
+	}
+
+	//создаем слайс индексов и заполняем его индексами из исходного слайса data
+	indexes := make([]int, len(data))
+	for i := range data {
+		indexes[i] = i
+	}
+
+	//сортируем слайс индексов по суммам слайсов (из слайса sums) по каждому индексу
+	slices.SortStableFunc(indexes, func(a, b int) int {
+
+		return cmp.Compare(sums[a], sums[b])
+	})
+
+	// собираем новый слайс по отсортированным индексам слайса индексов indexes из значений данных по этим индексов из исходного слайса data
+
+	tempSlice := make([][]int, len(data))
+
+	for i, val := range indexes {
+		tempSlice[i] = data[val]
+	}
+
+	// копируем результат в иходный слайс data
+
+	copy(data, tempSlice)
+
+}
