@@ -1,0 +1,51 @@
+/*
+Напишите функцию, которая шифрует и дешифрует текст по алгоритму шифра Цезаря. 
+В нашей упрощенной реализации мы будем сдвигать не по конкретному алфавиту, 
+а по таблице символов Unicode. То есть сдвигаться будут все символы текста.
+
+Функция должна принимать три аргумента:
+1. text - текст, который нужно зашифровать или расшифровать
+2. shift - число, на которое нужно сдвинуть символы
+3. encode - булев тип, указывающий, нужно зашифровать (true) или дешифровать сообщение (false)
+
+Подсказка: При итерации по строке через `for ... range` вы получаете 
+каждый символ в виде `rune` (числовое представление символа). 
+К рунам можно напрямую применять математические операции (сложение и вычитание), 
+сдвигая их числовое значение.
+*/
+
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	str := "Зашифруй меня!"
+	encodedStr := CaesarCode(str, 5, true)
+	fmt.Println(encodedStr)
+
+	decodedStr := CaesarCode(encodedStr, 5, false)
+	fmt.Println(decodedStr)
+
+}
+
+func CaesarCode(text string, shift int, encode bool) string {
+
+	inputSlice := []rune(text)
+	outputSlice := make([]rune, len(inputSlice))
+
+	for i, val := range inputSlice {
+
+		if encode == true {
+			outputSlice[i] = rune(int(val) + shift)
+		}
+		if encode == false {
+			outputSlice[i] = rune(int(val) - shift)
+		}
+	}
+
+	outputText := string(outputSlice)
+
+	return outputText
+}
