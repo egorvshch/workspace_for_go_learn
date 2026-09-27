@@ -1,0 +1,96 @@
+// magicSort сортирует двумерный слайс по специфическим правилам:
+// 1. Внешний слайс сортируется по возрастанию суммы внутренних (стабильно).
+// 2. Внутренние слайсы сортируются: 0 -> четные -> нечетные (все по убыванию).
+
+package main
+
+import (
+	"cmp"
+	"fmt"
+	"slices"
+)
+
+func main() {
+
+	sliceX := [][]int{
+		{3, 1, 4, 1},
+		{2, 2, 2},
+		{5, 0, 6, 3, -8, 1},
+		{4, 6, 8, 2},
+	}
+	magicSort(sliceX)
+	fmt.Println(sliceX)
+
+	//[[2 2 2] [5 0 6 3 -8 1] [3 1 4 1] [4 6 8 2]]
+}
+
+func magicSort(data [][]int) {
+
+	// считаем суммы в слайсах и добавляем их в новый слайс
+	sums := make([]int, len(data))
+
+	for i, subSlice := range data {
+		for _, val := range subSlice {
+			sums[i] += val
+		}
+	}
+
+	//создаем слайс индексов и заполняем его индексами из исходного слайса data
+	indexes := make([]int, len(data))
+	for i := range indexes {
+		indexes[i] = i
+	}
+
+	//сортируем слайс индексов по суммам слайсов (из слайса sums) по каждому индексу
+	slices.SortStableFunc(indexes, func(a, b int) int {
+
+		return cmp.Compare(sums[a], sums[b])
+	})
+
+	// собираем новый слайс по отсортированным индексам слайса индексов indexes из значений данных по этим индексов из исходного слайса data
+
+	tempSlice := make([][]int, len(data))
+
+	for i, val := range indexes {
+		tempSlice[i] = data[val]
+	}
+
+	// копируем результат в иходный слайс data
+
+	copy(data, tempSlice)
+
+	//------------------------------------------------------
+	// Сортируем внутренние слайсы в порядке убывания.
+	// при этом четные числа идут перед нечетными. Ноль идет перед всеми числами.
+
+	for _, subSlice := range data {
+
+		typeNum := func(x int) int {
+
+			if x%2 == 0 {
+				return 1
+			}
+			return 0
+
+		}
+
+		slices.SortStableFunc(subSlice, func(a, b int) int {
+
+			if a == 0 && b == 0 {
+				return 0
+			}
+			if a == 0 {
+				return -1
+			}
+			if b == 0 {
+				return 1
+			}
+
+			return cmp.Or(
+				cmp.Compare(typeNum(b), typeNum(a)),
+				cmp.Compare(b, a))
+
+		})
+	}
+
+}
