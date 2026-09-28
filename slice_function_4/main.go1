@@ -1,0 +1,40 @@
+package main
+
+import (
+	"fmt"
+	"math/rand/v2"
+	"os"
+)
+
+func main() {
+
+	n := 20
+	if slice1, err := CreateSlice(n); err != nil {
+		fmt.Printf("Error cause: %s", err)
+		os.Exit(1)
+	} else {
+		fmt.Println(slice1)
+	}
+
+}
+
+// Функция CreateSlice(n int) ([]int, error) принимает целое число n и возвращает слайс случайных целых чисел от -10 до 10 включительно, длиной в n.
+// Если n отрицательное, должна вернуть ошибку. В main при получении ошибки ее необходимо вывести, а программу завершить. Если n = 0, функция должна вернуть пустой слайс без ошибки.
+
+func CreateSlice(n int) ([]int, error) {
+
+	if n < 0 {
+		return nil, fmt.Errorf("n < 0")
+	} else {
+
+		slice2 := make([]int, n)
+		min := -10
+		max := 10
+
+		for i := range slice2 {
+			slice2[i] = rand.IntN(max-min) + min
+
+		}
+		return slice2, nil
+	}
+}
