@@ -1,0 +1,44 @@
+package main
+
+import (
+	"cmp"
+	"fmt"
+	"slices"
+)
+
+func main() {
+
+	slice1 := []int{1, 6, 2, 5, 8, 2}
+	fmt.Println(SortByParity(slice1))  //[8 6 2 2 1 5]
+}
+
+/*
+Функция SortByParity(numbers []int) []int должна отсортировать слайс. Четные числа в слайсе должны быть в начале, отсортированы по убыванию, а нечетные в конце слайса и отсортированы по возрастанию.
+Число 0 считается четным.
+*/
+
+func SortByParity(numbers []int) []int {
+
+	slices.SortFunc(numbers, func(a, b int) int {
+		isAEvent := a%2 == 0
+		isBEvent := b%2 == 0
+
+		// если одно из чисел нечетное
+
+		if isAEvent != isBEvent {
+			if isAEvent {
+				return -1 // "а" четное, ставим вперед
+			}
+			return 1 // // "b" четное, ставим вперед
+		}
+
+		// если оба числа четные , сортируем по убыванию
+		if isAEvent {
+			return cmp.Compare(b, a)
+		}
+		// если оба числа нечетные , сортируем по возрастанию
+		return cmp.Compare(a, b)
+
+	})
+	return numbers
+}
