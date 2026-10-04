@@ -40,9 +40,14 @@ func main() {
 
 	//Подсчет друзей
 	countFriends := countFriends(friendsData)
+	sliceCountFriends := []string{}
+	for user := range countFriends {
+		sliceCountFriends = append(sliceCountFriends, user)
+	}
+	slices.Sort(sliceCountFriends)
 	fmt.Printf("Количество друзей:\n")
-	for user, count := range countFriends {
-		fmt.Printf("%s: %d\n", user, count)
+	for _, user := range sliceCountFriends {
+		fmt.Printf("%s: %d\n", user, countFriends[user])
 	}
 
 	//Общие друзья
@@ -64,7 +69,6 @@ func countFriends(users map[string][]string) map[string]int {
 	*/
 
 	counterFriend := map[string]int{}
-
 	for user, friend := range users {
 		counterFriend[user] = len(friend)
 	}
@@ -85,6 +89,7 @@ func commonFriends(users map[string][]string, user1, user2 string) []string {
 		}
 
 	}
+	slices.Sort(commonFiendList)
 	return commonFiendList
 }
 
