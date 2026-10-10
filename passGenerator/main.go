@@ -32,10 +32,13 @@ var (
 func generatePassword(length int, count int) ([]string, error) {
 
 	if length < MinPasswordLength {
-		return nil, errors.New("Минимальная длина пароля должна быть 4 символа")
+		return nil, ErrPasswordLengthTooLow
 	}
-	if count < MinPasswordsCount || count > MaxPasswordsCount {
-		return nil, errors.New("Количество паролей для генерации должно быть от 1 до 50")
+	if count < MinPasswordsCount {
+		return nil, ErrPasswordsCountTooLow
+	}
+    	if count > MaxPasswordsCount {
+		return nil, ErrPasswordsCountTooBig
 	}
 
 	// проверка дубликата паролей
